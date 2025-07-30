@@ -1,0 +1,37 @@
+class LetterNode:
+    def __init__(self, letter):
+        self.letter = letter
+        self.children = {}
+        self.isEnd = False
+
+class GenreTree:
+    def __init__(self):
+        self.root = LetterNode("*")
+
+    def add_word(self, genre):
+        current_node = self.root
+        for letter in genre:
+            if letter not in current_node.children.keys():
+                current_node.children[letter] = LetterNode(letter)
+            current_node = current_node.children[letter]
+        current_node.isEnd = True
+
+    def search_tree(self, search_term):
+        current_node = self.root
+        for letter in search_term:
+            if letter not in current_node.children.keys():
+                return False
+            current_node = current_node.children[letter]
+        if current_node.isEnd:
+            return [search_term]
+        else:
+            return self.list_genres(current_node.children, search_term, [])
+
+    def list_genres(self, children_list, prefix, genre_list):
+        for letter in children_list.values():
+            if letter.isEnd:
+                genre_list.append(prefix + letter.letter)
+            else:
+                self.list_genres(letter.children, prefix + letter.letter, genre_list)
+        genre_list.sort()
+        return genre_list
