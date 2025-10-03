@@ -18,4 +18,4 @@ A Python-based application for the recommendation of series and standalone books
 ## Usage
 Run the program with:
 ```bash
-python booksearch.py
+python3 booksearch.py
